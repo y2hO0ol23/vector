@@ -55,76 +55,76 @@ int main() {
 }
 
 struct vector* vector_create() {
-	struct vector* new_vector = (struct vector*)malloc(sizeof(struct vector)); // º¤ÅÍ °ø°£ »ı¼º
+	struct vector* new_vector = (struct vector*)malloc(sizeof(struct vector)); // ë²¡í„° ê³µê°„ ìƒì„±
 
 	new_vector->size = 0;
-	new_vector->capacity = 0; //º¤ÅÍ Å©±â¿Í ½ÇÁ¦ Å©±â 0À¸·Î ¼³Á¤
+	new_vector->capacity = 0; //ë²¡í„° í¬ê¸°ì™€ ì‹¤ì œ í¬ê¸° 0ìœ¼ë¡œ ì„¤ì •
 
-	return new_vector; // ¸¸µç º¤ÅÍ¸¦ ¹İÈ¯
+	return new_vector; // ë§Œë“  ë²¡í„°ë¥¼ ë°˜í™˜
 }
 
 struct vector* vector_copy(struct vector* vec) {
-	int vsize = vector_size(vec); //º¤ÅÍ Å©±â ¹Ş°í
-	struct vector* new_vector = vector_create(); // »õ·Î¿î º¤ÅÍ ¸¸µç ÈÄ
+	int vsize = vector_size(vec); //ë²¡í„° í¬ê¸° ë°›ê³ 
+	struct vector* new_vector = vector_create(); // ìƒˆë¡œìš´ ë²¡í„° ë§Œë“  í›„
 
 	vector_reserve(new_vector, vsize);
 
 	for (int i = 0; i < vsize; i++)
-		vector_push_back(new_vector, *vector_at(vec, i)); // 0ºÎÅÍ º¤ÅÍ Å©±â±îÁö º¤ÅÍ °ª ³Ö±â
-														  //new_vector->data = vec->data·Î ÇÏ¸é µÑ´Ù °°Àº °÷À» ÁöÁ¤ÇÏ°Ô µÇ±â ¶§¹®
+		vector_push_back(new_vector, *vector_at(vec, i)); // 0ë¶€í„° ë²¡í„° í¬ê¸°ê¹Œì§€ ë²¡í„° ê°’ ë„£ê¸°
+														  //new_vector->data = vec->dataë¡œ í•˜ë©´ ë‘˜ë‹¤ ê°™ì€ ê³³ì„ ì§€ì •í•˜ê²Œ ë˜ê¸° ë•Œë¬¸
 
 	return new_vector;
 }
 
 void vector_destructor(struct vector* vec) {
-	free(vec->data); // º¤ÅÍ °ªÀ» Áö¿ì°í
-	free(vec); // º¤ÅÍ ¸Ó¸® ºÎºĞÀ» Áö¿ì±â
+	free(vec->data); // ë²¡í„° ê°’ì„ ì§€ìš°ê³ 
+	free(vec); // ë²¡í„° ë¨¸ë¦¬ ë¶€ë¶„ì„ ì§€ìš°ê¸°
 }
 
 void vector_reserve(struct vector* vec, int capacity) {
-	if (vector_capacity(vec) == 0)  //º¤ÅÍÀÇ ½ÇÁ¦ Å©±â°¡ 0ÀÌ¶ó¸é
-		vec->data = (int*)malloc(sizeof(int) * capacity); // ¸Ş¸ğ¸® ÇÒ´ç
+	if (vector_capacity(vec) == 0)  //ë²¡í„°ì˜ ì‹¤ì œ í¬ê¸°ê°€ 0ì´ë¼ë©´
+		vec->data = (int*)malloc(sizeof(int) * capacity); // ë©”ëª¨ë¦¬ í• ë‹¹
 	else
-		vec->data = (int*)realloc(vec->data, sizeof(int) * capacity); // 0ÀÌ ¾Æ´Ï¸é ´Ù½Ã ÇÒ´ç
+		vec->data = (int*)realloc(vec->data, sizeof(int) * capacity); // 0ì´ ì•„ë‹ˆë©´ ë‹¤ì‹œ í• ë‹¹
 
-	vec->capacity = capacity; // º¤ÅÍÀÇ ½ÇÁ¦ Å©±â¸¦ (¹Ù²î¾úÀ¸¹Ç·Î) ¿øÇÏ´Â Å©±â·Î ¼³Á¤
+	vec->capacity = capacity; // ë²¡í„°ì˜ ì‹¤ì œ í¬ê¸°ë¥¼ (ë°”ë€Œì—ˆìœ¼ë¯€ë¡œ) ì›í•˜ëŠ” í¬ê¸°ë¡œ ì„¤ì •
 
-	if (vec->size > capacity) //º¤ÅÍÀÇ Å©±â°¡ ½ÇÁ¦ Å©±â¸¦ ³Ñ´Â °æ¿ì
-		vec->size = capacity; // º¤ÅÍÀÇ Å©±â¸¦ ½ÇÁ¦Å©±â·Î ¼³Á¤
+	if (vec->size > capacity) //ë²¡í„°ì˜ í¬ê¸°ê°€ ì‹¤ì œ í¬ê¸°ë¥¼ ë„˜ëŠ” ê²½ìš°
+		vec->size = capacity; // ë²¡í„°ì˜ í¬ê¸°ë¥¼ ì‹¤ì œí¬ê¸°ë¡œ ì„¤ì •
 }
 
 void vector_resize(struct vector* vec, int size) {
-	int vsize = vector_size(vec); // »çÀÌÁî ÀúÀå
-	int vcapacity = vector_capacity(vec); // ½ÇÁ¦ Å©±â ÀúÀå
+	int vsize = vector_size(vec); // ì‚¬ì´ì¦ˆ ì €ì¥
+	int vcapacity = vector_capacity(vec); // ì‹¤ì œ í¬ê¸° ì €ì¥
 
-	if (vsize < size) { // »õ·Î Á¤ÇÑ Å©±â°¡ ¿ø·¡ Å©±âº¸´Ù Å¬ °æ¿ì
+	if (vsize < size) { // ìƒˆë¡œ ì •í•œ í¬ê¸°ê°€ ì›ë˜ í¬ê¸°ë³´ë‹¤ í´ ê²½ìš°
 		int loop_size = size - vsize;
 
-		for (int i = 0; i < loop_size; i++) // »õ·Î »ı±ä °ø°£¿¡ 0 ³Ö±â
+		for (int i = 0; i < loop_size; i++) // ìƒˆë¡œ ìƒê¸´ ê³µê°„ì— 0 ë„£ê¸°
 			vector_push_back(vec, 0);
 	}
 
-	vec->size = size; // »çÀÌÁî¸¦ ¿øÇÏ´Â Å©±â·Î ¼³Á¤
+	vec->size = size; // ì‚¬ì´ì¦ˆë¥¼ ì›í•˜ëŠ” í¬ê¸°ë¡œ ì„¤ì •
 }
 
 void vector_shrink(struct vector* vec) {
-	vector_reserve(vec, vector_size(vec)); // º¤ÅÍÀÇ ½ÇÁ¦ Å©±â¸¦ Á¶Àı
+	vector_reserve(vec, vector_size(vec)); // ë²¡í„°ì˜ ì‹¤ì œ í¬ê¸°ë¥¼ ì¡°ì ˆ
 }
 
 int vector_size(struct vector* vec) {
-	return vec->size; // »çÀÌÁî°ª ¹İÈ¯
+	return vec->size; // ì‚¬ì´ì¦ˆê°’ ë°˜í™˜
 }
 
 int vector_capacity(struct vector* vec) {
-	return vec->capacity; // º¤ÅÍÀÇ ½ÇÁ¦ Å©±â ¹İÈ¯
+	return vec->capacity; // ë²¡í„°ì˜ ì‹¤ì œ í¬ê¸° ë°˜í™˜
 }
 
 int vector_empty(struct vector* vec) {
-	return vector_size(vec) == 0; // »çÀÌÁî°¡ 0ÀÏ°æ¿ì ºñ¾îÀÖÀ¸¹Ç·Î Âü
+	return vector_size(vec) == 0; // ì‚¬ì´ì¦ˆê°€ 0ì¼ê²½ìš° ë¹„ì–´ìˆìœ¼ë¯€ë¡œ ì°¸
 }
 
 int* vector_at(struct vector* vec, int pos) {
-	return &vec->data[pos]; // data¿¡¼­ pos¹øÂ° ÀÖ´Â °ªÀ» ¹İÈ¯
+	return &vec->data[pos]; // dataì—ì„œ posë²ˆì§¸ ìˆëŠ” ê°’ì„ ë°˜í™˜
 }
 
 int* vector_front(struct vector* vec) {
@@ -143,47 +143,47 @@ void vector_swap(struct vector* vec, int lhs, int rhs) {
 }
 
 void vector_insert(struct vector* vec, int pos, int value) {
-	int vsize = vector_size(vec); // »çÀÌÁî, Å©±â ÀúÀå
+	int vsize = vector_size(vec); // ì‚¬ì´ì¦ˆ, í¬ê¸° ì €ì¥
 	int vcapacity = vector_capacity(vec);
 
-	if (pos > vcapacity) { // Ãß°¡ÇÒ À§Ä¡°¡ ¹üÀ§¸¦ ¹ş¾î³­´Ù¸é ÀÛµ¿ÇÏÁö ¾ÊÀ½
+	if (pos > vcapacity) { // ì¶”ê°€í•  ìœ„ì¹˜ê°€ ë²”ìœ„ë¥¼ ë²—ì–´ë‚œë‹¤ë©´ ì‘ë™í•˜ì§€ ì•ŠìŒ
 	}
 	else {
-		if (vsize == vcapacity) { // ¸¸¾à ½ÇÁ¦ Å©±â¿Í Å©±â°¡ °°´Ù¸é 
-								  // ´õÀÌ»ó ³ÖÀ» °ø°£ÀÌ ¾øÀ¸¹Ç·Î °ø°£À» ¸¸µé¾î ÁØ ÈÄ °ªÀ» ³Ö°Ô µÊ
-			if (vcapacity == 0) { // Å©±â°¡ 0ÀÌ¸é
+		if (vsize == vcapacity) { // ë§Œì•½ ì‹¤ì œ í¬ê¸°ì™€ í¬ê¸°ê°€ ê°™ë‹¤ë©´ 
+								  // ë”ì´ìƒ ë„£ì„ ê³µê°„ì´ ì—†ìœ¼ë¯€ë¡œ ê³µê°„ì„ ë§Œë“¤ì–´ ì¤€ í›„ ê°’ì„ ë„£ê²Œ ë¨
+			if (vcapacity == 0) { // í¬ê¸°ê°€ 0ì´ë©´
 				vec->data = (int*)malloc(sizeof(int));
-				vec->capacity = 1; // »õ·Ó°Ô ¸¸µç ÈÄ ½ÇÁ¦ Å©±â¸¦ 1À¸·Î ¼³Á¤
-								   // ÀÌ °æ¿ì °ªÀÌ ÀúÀåµÇ¾î ÀÖÁö ¾ÊÀ¸¹Ç·Î °ø°£À» ¸¸µé ÇÊ¿ä ¾øÀ½
+				vec->capacity = 1; // ìƒˆë¡­ê²Œ ë§Œë“  í›„ ì‹¤ì œ í¬ê¸°ë¥¼ 1ìœ¼ë¡œ ì„¤ì •
+								   // ì´ ê²½ìš° ê°’ì´ ì €ì¥ë˜ì–´ ìˆì§€ ì•Šìœ¼ë¯€ë¡œ ê³µê°„ì„ ë§Œë“¤ í•„ìš” ì—†ìŒ
 			}
 			else {
-				vec->capacity = vcapacity * 2; // ½ÇÁ¦ Å©±â¸¦ 2¹è·Î ´Ã¸²
+				vec->capacity = vcapacity * 2; // ì‹¤ì œ í¬ê¸°ë¥¼ 2ë°°ë¡œ ëŠ˜ë¦¼
 				vec->data = (int*)realloc(vec->data, sizeof(int) * vector_capacity(vec));
 
-				for (int i = vsize; i > pos; i--) // pos±îÁö ÇÑÄ­¾¿ ¹Ğ¾î °ø°£À» ¸¸µë
+				for (int i = vsize; i > pos; i--) // posê¹Œì§€ í•œì¹¸ì”© ë°€ì–´ ê³µê°„ì„ ë§Œë“¬
 					vec->data[i] = vec->data[i - 1];
 			}
 		}
 		else {
-			for (int i = vsize; i > pos; i--) { // pos±îÁö ÇÑÄ­¾¿ ¹Ğ¾î °ø°£À» ¸¸µë
+			for (int i = vsize; i > pos; i--) { // posê¹Œì§€ í•œì¹¸ì”© ë°€ì–´ ê³µê°„ì„ ë§Œë“¬
 				vec->data[i] = vec->data[i - 1];
 			}
 		}
 
-		vec->data[pos] = value; // °ªÀ» ¿øÇÏ´Â À§Ä¡¿¡ ³Ö°í »çÀÌÁî Áõ°¡
+		vec->data[pos] = value; // ê°’ì„ ì›í•˜ëŠ” ìœ„ì¹˜ì— ë„£ê³  ì‚¬ì´ì¦ˆ ì¦ê°€
 		vec->size++;
 	}
 }
 
 void vector_erase(struct vector* vec, int pos) {
 	int vsize = vector_size(vec);
-	if (pos < vsize) { // Áö¿ì°í ½ÍÀº À§Ä¡°¡ º¤ÅÍ Å©±âº¸´Ù ÀÛ´Ù¸é
+	if (pos < vsize) { // ì§€ìš°ê³  ì‹¶ì€ ìœ„ì¹˜ê°€ ë²¡í„° í¬ê¸°ë³´ë‹¤ ì‘ë‹¤ë©´
 		int loop_size = vsize - 1;
 
-		for (int i = pos; i < loop_size; i++) // ¿øÇÏ´Â À§Ä¡¼­ºÎÅÍ µÚÀÇ °ªÀ» ´ç°Ü¿È 
-			vec->data[i] = vec->data[i + 1];  // ÀÌ·¸°Ô ÇÏ¸é posÀ§Ä¡ÀÇ °ªÀº µ¤Çô »ç¶óÁü
+		for (int i = pos; i < loop_size; i++) // ì›í•˜ëŠ” ìœ„ì¹˜ì„œë¶€í„° ë’¤ì˜ ê°’ì„ ë‹¹ê²¨ì˜´ 
+			vec->data[i] = vec->data[i + 1];  // ì´ë ‡ê²Œ í•˜ë©´ posìœ„ì¹˜ì˜ ê°’ì€ ë®í˜€ ì‚¬ë¼ì§
 
-		vec->size--;// »çÀÌÁî¸¦ 1 ÁÙÀÓ
+		vec->size--;// ì‚¬ì´ì¦ˆë¥¼ 1 ì¤„ì„
 	}
 }
 
@@ -196,7 +196,7 @@ void vector_pop_back(struct vector* vec) {
 }
 
 void vector_clear(struct vector* vec) {
-	vec->size = 0; // »çÀÌÁî¸¦ 0À¸·Î ÃÊ±âÈ­
+	vec->size = 0; // ì‚¬ì´ì¦ˆë¥¼ 0ìœ¼ë¡œ ì´ˆê¸°í™”
 }
 
 void vector_print(struct vector* vec) {
